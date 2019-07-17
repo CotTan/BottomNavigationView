@@ -13,12 +13,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Objects;
 
+/**
+ * @author COT
+ * @version 1.0
+ * @since 2019-7-17
+ */
 public class RecycleViewGridDivider extends RecyclerView.ItemDecoration {
 
     public static final int GRID = 0;//recycleView 表格

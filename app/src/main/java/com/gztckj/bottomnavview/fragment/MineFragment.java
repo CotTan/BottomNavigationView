@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 
 import com.gztckj.bottomnavview.R;
 
+/**
+ * @author COT
+ * @version 1.0
+ * @since 2019-7-17
+ */
 public class MineFragment extends Fragment {
     public MineFragment() {
     }

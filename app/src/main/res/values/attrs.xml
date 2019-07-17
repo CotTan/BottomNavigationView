@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BottomNavigationView">
-        <attr name="text" format="string" />
-        <attr name="badge" format="string" />
-        <attr name="testAttr" format="integer" />
+        <attr name="badgeStyle">
+            <enum name="unavailable" value="0" />
+            <enum name="dot" value="1" />
+            <enum name="number" value="2" />
+        </attr>
+        <attr name="badgeColor" format="reference|color" />
+        <attr name="textCheckedColor" format="reference|color" />
+        <attr name="textUncheckedColor" format="reference|color" />
+        <attr name="textCheckedSize" format="reference|dimension" />
+        <attr name="textUncheckedSize" format="reference|dimension" />
     </declare-styleable>
 </resources>

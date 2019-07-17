@@ -17,8 +17,14 @@
         android:id="@+id/bnv_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/shape_line_top_gray"
+        app:badgeStyle="dot"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:textCheckedColor="@color/red"
+        app:textCheckedSize="18sp"
+        app:textUncheckedColor="#21EC87"
+        app:textUncheckedSize="10sp" />
 
 </android.support.constraint.ConstraintLayout>
