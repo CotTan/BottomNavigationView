@@ -1,4 +1,4 @@
-package com.gztckj.bottomnavview.view;
+package com.cot.bottomnavigationview.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

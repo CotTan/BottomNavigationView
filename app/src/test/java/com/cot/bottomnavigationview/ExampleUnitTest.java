@@ -1,4 +1,4 @@
-package com.gztckj.bottomnavview;
+package com.cot.bottomnavigationview;
 
 import org.junit.Test;
 

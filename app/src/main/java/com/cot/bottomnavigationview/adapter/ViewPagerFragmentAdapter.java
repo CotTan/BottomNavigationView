@@ -1,4 +1,4 @@
-package com.gztckj.bottomnavview.adapter;
+package com.cot.bottomnavigationview.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

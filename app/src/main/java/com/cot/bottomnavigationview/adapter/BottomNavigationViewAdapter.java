@@ -1,4 +1,4 @@
-package com.gztckj.bottomnavview.adapter;
+package com.cot.bottomnavigationview.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gztckj.bottomnavview.R;
-import com.gztckj.bottomnavview.bean.BottomNavigationBean;
-import com.gztckj.bottomnavview.view.BottomNavigationView;
+import com.cot.bottomnavigationview.R;
+import com.cot.bottomnavigationview.bean.BottomNavigationBean;
+import com.cot.bottomnavigationview.view.BottomNavigationView;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.gztckj.bottomnavview;
+package com.cot.bottomnavigationview;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,14 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.gztckj.bottomnavview.adapter.ViewPagerFragmentAdapter;
-import com.gztckj.bottomnavview.bean.BottomNavigationBean;
-import com.gztckj.bottomnavview.fragment.CommunicationFragment;
-import com.gztckj.bottomnavview.fragment.DiscoverFragment;
-import com.gztckj.bottomnavview.fragment.DisplayFragment;
-import com.gztckj.bottomnavview.fragment.HomeFragment;
-import com.gztckj.bottomnavview.fragment.MineFragment;
-import com.gztckj.bottomnavview.view.BottomNavigationView;
+import com.cot.bottomnavigationview.adapter.ViewPagerFragmentAdapter;
+import com.cot.bottomnavigationview.bean.BottomNavigationBean;
+import com.cot.bottomnavigationview.fragment.CommunicationFragment;
+import com.cot.bottomnavigationview.fragment.DiscoverFragment;
+import com.cot.bottomnavigationview.fragment.DisplayFragment;
+import com.cot.bottomnavigationview.fragment.HomeFragment;
+import com.cot.bottomnavigationview.fragment.MineFragment;
+import com.cot.bottomnavigationview.view.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;

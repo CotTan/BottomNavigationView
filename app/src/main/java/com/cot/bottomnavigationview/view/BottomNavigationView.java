@@ -1,4 +1,4 @@
-package com.gztckj.bottomnavview.view;
+package com.cot.bottomnavigationview.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,9 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.gztckj.bottomnavview.R;
-import com.gztckj.bottomnavview.adapter.BottomNavigationViewAdapter;
-import com.gztckj.bottomnavview.bean.BottomNavigationBean;
+import com.cot.bottomnavigationview.R;
+import com.cot.bottomnavigationview.adapter.BottomNavigationViewAdapter;
+import com.cot.bottomnavigationview.bean.BottomNavigationBean;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

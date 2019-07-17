@@ -1,4 +1,4 @@
-package com.gztckj.bottomnavview.fragment;
+package com.cot.bottomnavigationview.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gztckj.bottomnavview.R;
+import com.cot.bottomnavigationview.R;
 
 /**
  * @author COT

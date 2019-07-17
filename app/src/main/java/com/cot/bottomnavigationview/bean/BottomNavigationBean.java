@@ -1,6 +1,6 @@
-package com.gztckj.bottomnavview.bean;
+package com.cot.bottomnavigationview.bean;
 
-import com.gztckj.bottomnavview.view.BottomNavigationView;
+import com.cot.bottomnavigationview.view.BottomNavigationView;
 
 /**
  * @author COT
