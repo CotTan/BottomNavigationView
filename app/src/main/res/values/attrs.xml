@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BottomNavigationView">
-        <attr name="badgeStyle">
+        <attr name="badgeType">
             <enum name="unavailable" value="0" />
             <enum name="dot" value="1" />
             <enum name="number" value="2" />

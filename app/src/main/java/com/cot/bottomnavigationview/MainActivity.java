@@ -3,11 +3,12 @@ package com.cot.bottomnavigationview;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.cot.bottomnavigationview.adapter.ViewPagerFragmentAdapter;
 import com.cot.bottomnavigationview.bean.BottomNavigationBean;
@@ -79,32 +80,23 @@ public class MainActivity extends AppCompatActivity {
                 .setDefaultPosition(2)
                 .setBadgeColor(Color.parseColor("#0EE90A"), 1)
                 .bindViewPager(mViewPager)
-                .setOnClickListener(new BottomNavigationView.OnClickListener() {
-                    @Override
-                    public boolean onClickListener(int curPosition, List<BottomNavigationBean> bottomNavigationList, int prePosition) {
-                        setBadge(list.get(curPosition), curPosition);
-                        Log.e(tag, "单击当前位置：" + curPosition + "    上一个位置:" + prePosition);
-                        Toast.makeText(MainActivity.this, "单击" + bottomNavigationList.get(curPosition).getLabelName(), Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
+                .setOnClickListener((curPosition, bottomNavigationList, prePosition) -> {
+                    setBadge(list.get(curPosition), curPosition);
+                    Log.e(tag, "单击当前位置：" + curPosition + "    上一个位置:" + prePosition);
+                    Toast.makeText(MainActivity.this, "单击" + bottomNavigationList.get(curPosition).getLabelName(), Toast.LENGTH_SHORT).show();
+                    return true;
                 })
-                .setOnDoubleClickListener(new BottomNavigationView.OnDoubleClickListener() {
-                    @Override
-                    public boolean onDoubleClickListener(int curPosition, List<BottomNavigationBean> bottomNavigationList, int prePosition) {
-                        setBadge(list.get(curPosition), curPosition);
-                        Log.e(tag, "双击当前位置：" + curPosition + "    上一个位置:" + prePosition);
-                        Toast.makeText(MainActivity.this, "双击" + bottomNavigationList.get(curPosition).getLabelName(), Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
+                .setOnDoubleClickListener((curPosition, bottomNavigationList, prePosition) -> {
+                    setBadge(list.get(curPosition), curPosition);
+                    Log.e(tag, "双击当前位置：" + curPosition + "    上一个位置:" + prePosition);
+                    Toast.makeText(MainActivity.this, "双击" + bottomNavigationList.get(curPosition).getLabelName(), Toast.LENGTH_SHORT).show();
+                    return true;
                 })
-                .setOnLongClickListener(new BottomNavigationView.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClickListener(int curPosition, List<BottomNavigationBean> bottomNavigationList, int prePosition) {
-                        setBadge(list.get(curPosition), curPosition);
-                        Log.e(tag, "长按当前位置：" + curPosition + "    上一个位置:" + prePosition);
-                        Toast.makeText(MainActivity.this, "长按" + bottomNavigationList.get(curPosition).getLabelName(), Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
+                .setOnLongClickListener((curPosition, bottomNavigationList, prePosition) -> {
+                    setBadge(list.get(curPosition), curPosition);
+                    Log.e(tag, "长按当前位置：" + curPosition + "    上一个位置:" + prePosition);
+                    Toast.makeText(MainActivity.this, "长按" + bottomNavigationList.get(curPosition).getLabelName(), Toast.LENGTH_SHORT).show();
+                    return false;
                 });
     }
 

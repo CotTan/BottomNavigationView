@@ -3,17 +3,18 @@ package com.cot.bottomnavigationview.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringDef;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.cot.bottomnavigationview.R;
 import com.cot.bottomnavigationview.adapter.BottomNavigationViewAdapter;
@@ -38,6 +39,7 @@ public class BottomNavigationView extends FrameLayout {
     private Context mContent;
     private RecyclerView mRecyclerView;
     private ViewPager mViewPager;
+    private View view;//layout
 
     private BottomNavigationViewAdapter mBottomNavigationAdapter;
     private GridLayoutManager mGridLayoutManager;
@@ -87,20 +89,25 @@ public class BottomNavigationView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         this.mContent = context;
 
-        View view = LayoutInflater.from(context).inflate(R.layout.bottom_navigation_view, this);
+        view = LayoutInflater.from(context).inflate(R.layout.bottom_navigation_view, this);
 
         mRecyclerView = view.findViewById(R.id.rv_bottom_navigation_view);
 
         //加载自定义的属性
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BottomNavigationView);
-        mBadgeStyle = typedArray.getString(R.styleable.BottomNavigationView_badgeStyle);
-        mBadgeColor = typedArray.getColor(R.styleable.BottomNavigationView_badgeColor, context.getResources().getColor(R.color.red));
-        mTextCheckedColor = typedArray.getColor(R.styleable.BottomNavigationView_textCheckedColor, context.getResources().getColor(R.color.textColor));
-        mTextUncheckedColor = typedArray.getColor(R.styleable.BottomNavigationView_textUncheckedColor, context.getResources().getColor(R.color.textGrayColor));
+        mBadgeStyle = typedArray.getString(R.styleable.BottomNavigationView_badgeType);
+        mBadgeColor = typedArray.getColor(R.styleable.BottomNavigationView_badgeColor,
+                context.getResources().getColor(R.color.red));
+        mTextCheckedColor = typedArray.getColor(R.styleable.BottomNavigationView_textCheckedColor,
+                context.getResources().getColor(R.color.textColor));
+        mTextUncheckedColor = typedArray.getColor(R.styleable.BottomNavigationView_textUncheckedColor,
+                context.getResources().getColor(R.color.textGray));
         mTextCheckedSize = (int) typedArray.getDimension(R.styleable.BottomNavigationView_textCheckedSize,
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 14, context.getResources().getDisplayMetrics()));
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 14,
+                        context.getResources().getDisplayMetrics()));
         mTextUncheckedSize = (int) typedArray.getDimension(R.styleable.BottomNavigationView_textUncheckedSize,
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 14, context.getResources().getDisplayMetrics()));
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 14,
+                        context.getResources().getDisplayMetrics()));
 
         //回收资源，这一句必须调用
         typedArray.recycle();
@@ -136,7 +143,8 @@ public class BottomNavigationView extends FrameLayout {
         mBottomNavigationAdapter = new BottomNavigationViewAdapter(mContent, list, this);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         mRecyclerView.setAdapter(mBottomNavigationAdapter);
-        mRecyclerView.addItemDecoration(new RecycleViewGridDivider(1, 0, true, RecycleViewGridDivider.HORIZONTAL));
+        mRecyclerView.addItemDecoration(new RecycleViewGridDivider(1, 0, true,
+                RecycleViewGridDivider.HORIZONTAL));
 
         setCurrentItem(getDefaultPosition());
 
@@ -147,58 +155,46 @@ public class BottomNavigationView extends FrameLayout {
         setBadgeDefaultStyle(mBadgeStyle);
 
         if (onClickListener == null) {//默认点击事件
-            setOnClickListener(new BottomNavigationView.OnClickListener() {
-                @Override
-                public boolean onClickListener(int curPosition, List<BottomNavigationBean> bottomNavigationList, int prePosition) {
-                    listenerType = 1;
-                    if (mViewPager != null) {
-                        mViewPager.setCurrentItem(curPosition, false);
-                    }
-                    return true;
+            setOnClickListener((curPosition, bottomNavigationList, prePosition) -> {
+                listenerType = 1;
+                if (mViewPager != null) {
+                    mViewPager.setCurrentItem(curPosition, false);
                 }
+                return true;
             });
         }
 
         //单击事件
-        mBottomNavigationAdapter.setOnClickListener(new BottomNavigationViewAdapter.onItemClickListener() {
-            @Override
-            public boolean onClickListener(int curPosition, List<BottomNavigationBean> bottomNavigationList, int prePosition) {
-                listenerType = 1;
-                if (onClickListener != null) {
-                    clickStatus = onClickListener.onClickListener(curPosition, bottomNavigationList,
-                            prePosition);
-                    setCurrentItem(curPosition, clickStatus ? 0 : 1);
-                }
-                return clickStatus;
+        mBottomNavigationAdapter.setOnClickListener((curPosition, bottomNavigationList, prePosition) -> {
+            listenerType = 1;
+            if (onClickListener != null) {
+                clickStatus = onClickListener.onClickListener(curPosition, bottomNavigationList,
+                        prePosition);
+                setCurrentItem(curPosition, clickStatus ? 0 : 1);
             }
+            return clickStatus;
         });
 
         //双击事件
-        mBottomNavigationAdapter.setOnDoubleClickListener(new BottomNavigationViewAdapter.onItemDoubleClickListener() {
-            @Override
-            public boolean onDoubleClickListener(int curPosition, List<BottomNavigationBean> bottomNavigationList, int prePosition) {
-                listenerType = 2;
-                if (onDoubleClickListener != null) {
-                    doubleClickStatus = onDoubleClickListener.onDoubleClickListener(curPosition, bottomNavigationList,
-                            prePosition);
-                    setCurrentItem(curPosition, doubleClickStatus ? 0 : 1);
-                }
-                return doubleClickStatus;
+        mBottomNavigationAdapter.setOnDoubleClickListener((curPosition, bottomNavigationList, prePosition) -> {
+            listenerType = 2;
+            if (onDoubleClickListener != null) {
+                doubleClickStatus = onDoubleClickListener.onDoubleClickListener(curPosition, bottomNavigationList,
+                        prePosition);
+                setCurrentItem(curPosition, doubleClickStatus ? 0 : 1);
             }
+            return doubleClickStatus;
         });
 
         //长按事件
-        mBottomNavigationAdapter.setOnLongClickListener(new BottomNavigationViewAdapter.onItemLongClickListener() {
-            @Override
-            public boolean onLongClickListener(int curPosition, List<BottomNavigationBean> bottomNavigationList, int prePosition) {
-                listenerType = 3;
-                if (onLongClickListener != null) {
-                    longClickStatus = onLongClickListener.onLongClickListener(curPosition, bottomNavigationList,
-                            prePosition);
-                    setCurrentItem(curPosition, longClickStatus ? 0 : 1);
-                }
-                return longClickStatus;
+        mBottomNavigationAdapter.setOnLongClickListener((curPosition, bottomNavigationList, prePosition) -> {
+            listenerType = 3;
+            if (onLongClickListener != null) {
+                longClickStatus = onLongClickListener.onLongClickListener(curPosition, bottomNavigationList,
+                        prePosition);
+                setCurrentItem(curPosition, longClickStatus ? 0 : 1);
             }
+            return longClickStatus;
         });
         return this;
     }
@@ -433,6 +429,20 @@ public class BottomNavigationView extends FrameLayout {
 
         mBottomNavigationAdapter.notifyDataSetChanged();
 
+        return this;
+    }
+
+    /**
+     * 默认显示 BottomNavigationView
+     *
+     * @param isHide true 隐藏
+     */
+    public BottomNavigationView setHideNavigation(boolean isHide) {
+        if (isHide) {
+            view.setVisibility(GONE);
+        } else {
+            view.setVisibility(VISIBLE);
+        }
         return this;
     }
 

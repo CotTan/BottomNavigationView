@@ -5,15 +5,16 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cot.bottomnavigationview.R;
 import com.cot.bottomnavigationview.bean.BottomNavigationBean;
@@ -181,102 +182,95 @@ public class BottomNavigationViewAdapter extends RecyclerView.Adapter<BottomNavi
             badge = itemView.findViewById(R.id.tv_item_bottom_navigation_badge);
             dot = itemView.findViewById(R.id.tv_item_bottom_navigation_dot);
 
-            mHandler = new Handler() {
-                public void handleMessage(Message msg) {
-                    switch (msg.what) {
-                        //1,3 单击  2 双击  4 长按
-                        case 1://单击
-                        case 3:
-                            if (itemClickListener != null) {
-                                itemClickListener.onClickListener(msg.arg1, mBottomNavigationList, msg.arg2);
-                            }
-                            break;
-                        case 2://双击
-                            if (itemDoubleClickListener != null) {
-                                itemDoubleClickListener.onDoubleClickListener(msg.arg1, mBottomNavigationList, msg.arg2);
-                            }
-                            break;
-                        case 4://长按
-                            if (itemLongClickListener != null) {
-                                itemLongClickListener.onLongClickListener(msg.arg1, mBottomNavigationList, msg.arg2);
-                            }
-                            break;
-                    }
-
-                    mHandler.removeCallbacksAndMessages(null);
-                    //清空handler延时，并防内存泄漏
-                    clickCount = 0;//计数清零
+            mHandler = new Handler(msg -> {
+                switch (msg.what) {
+                    //1,3 单击  2 双击  4 长按
+                    case 1://单击
+                    case 3:
+                        if (itemClickListener != null) {
+                            itemClickListener.onClickListener(msg.arg1, mBottomNavigationList, msg.arg2);
+                        }
+                        break;
+                    case 2://双击
+                        if (itemDoubleClickListener != null) {
+                            itemDoubleClickListener.onDoubleClickListener(msg.arg1, mBottomNavigationList, msg.arg2);
+                        }
+                        break;
+                    case 4://长按
+                        if (itemLongClickListener != null) {
+                            itemLongClickListener.onLongClickListener(msg.arg1, mBottomNavigationList, msg.arg2);
+                        }
+                        break;
                 }
-            };
+
+                mHandler.removeCallbacksAndMessages(null);
+                //清空handler延时，并防内存泄漏
+                clickCount = 0;//计数清零
+                return false;
+            });
 
             //item单机事件和双击事件处理
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int type = 0;//1,3 单击  2 双击  4 长按
+            itemView.setOnClickListener(v -> {
+                int type = 0;//1,3 单击  2 双击  4 长按
 
-                    prePosition = firstPosition;
+                prePosition = firstPosition;
 
-                    clickCount++;
-                    if (clickCount == 1) {
-                        firstPosition = getAdapterPosition();
-                    } else if (clickCount == 2) {
-                        lastPosition = getAdapterPosition();
-                    }
+                clickCount++;
+                if (clickCount == 1) {
+                    firstPosition = getAdapterPosition();
+                } else if (clickCount == 2) {
+                    lastPosition = getAdapterPosition();
+                }
 
-                    if (clickCount == 1) {
-                        type = 1;
-                    } else if (clickCount == 2 && firstPosition == lastPosition) {
-                        type = 2;
-                        prePosition = curPosition;
-                    } else if (firstPosition != lastPosition) {
-                        type = 3;
-                        prePosition = curPosition;
-                    }
+                if (clickCount == 1) {
+                    type = 1;
+                } else if (clickCount == 2 && firstPosition == lastPosition) {
+                    type = 2;
+                    prePosition = curPosition;
+                } else if (firstPosition != lastPosition) {
+                    type = 3;
+                    prePosition = curPosition;
+                }
 
-                    Message msg = new Message();
-                    switch (type) {
-                        case 1:
-                            msg.what = type;
-                            msg.arg1 = firstPosition;
-                            msg.arg2 = prePosition;
-                            mHandler.sendMessageDelayed(msg, TIMEOUT);
-                            break;
-                        case 2:
-                            msg.what = type;
-                            msg.arg1 = lastPosition;
-                            msg.arg2 = prePosition;
-                            mHandler.sendMessageDelayed(msg, TIMEOUT);
-                            mHandler.removeMessages(1);
-                            break;
-                        case 3:
-                            msg.what = type;
-                            msg.arg1 = lastPosition;
-                            msg.arg2 = prePosition;
-                            mHandler.sendMessageDelayed(msg, TIMEOUT);
-                            mHandler.removeMessages(1);
-                            break;
-                    }
+                Message msg = new Message();
+                switch (type) {
+                    case 1:
+                        msg.what = type;
+                        msg.arg1 = firstPosition;
+                        msg.arg2 = prePosition;
+                        mHandler.sendMessageDelayed(msg, TIMEOUT);
+                        break;
+                    case 2:
+                        msg.what = type;
+                        msg.arg1 = lastPosition;
+                        msg.arg2 = prePosition;
+                        mHandler.sendMessageDelayed(msg, TIMEOUT);
+                        mHandler.removeMessages(1);
+                        break;
+                    case 3:
+                        msg.what = 3;
+                        msg.arg1 = lastPosition;
+                        msg.arg2 = prePosition;
+                        mHandler.sendMessageDelayed(msg, TIMEOUT);
+                        mHandler.removeMessages(1);
+                        break;
                 }
             });
 
             //item 长按事件处理
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    int type = 4;//1,3 单击  2 双击  4 长按
+            itemView.setOnLongClickListener(v -> {
+                int type = 4;//1,3 单击  2 双击  4 长按
 
-                    prePosition = curPosition;
-                    firstPosition = getAdapterPosition();
+                prePosition = curPosition;
+                firstPosition = getAdapterPosition();
 
-                    Message msg = new Message();
-                    msg.what = type;
-                    msg.arg1 = firstPosition;
-                    msg.arg2 = prePosition;
-                    mHandler.sendMessageDelayed(msg, TIMEOUT);
+                Message msg = new Message();
+                msg.what = type;
+                msg.arg1 = firstPosition;
+                msg.arg2 = prePosition;
+                mHandler.sendMessageDelayed(msg, TIMEOUT);
 
-                    return true;
-                }
+                return true;
             });
         }
     }
